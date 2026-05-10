@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Mail, Lock, User, Monitor, ArrowRight, ShieldCheck, AlertCircle } from 'lucide-react';
 import api from '../api/axios';
 
 export const Login = () => {
@@ -26,101 +27,143 @@ export const Login = () => {
       login(res.data.token);
       navigate('/');
     } catch (err: any) {
-      setError(err.response?.data?.error || 'ACCESS_DENIED: Invalid credentials or network error.');
+      setError(err.response?.data?.error || 'Authentication failed. Please verify credentials.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-bgDark p-4 relative overflow-hidden">
-      {/* Scanline overlay */}
-      <div className="absolute inset-0 pointer-events-none z-50 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] opacity-20"></div>
-      <div className="absolute inset-0 pointer-events-none z-40 h-[10px] w-full bg-neonCyan/20 blur-sm animate-scanline"></div>
-
-      {/* Decorative glowing orbs perfectly centered in background */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-neonCyan rounded-full mix-blend-screen filter blur-[200px] opacity-10 animate-pulse-slow"></div>
+    <div className="min-h-screen w-full flex items-center justify-center bg-[#05050a] relative overflow-hidden font-sans">
+      {/* Systematic subtle dot background */}
+      <div className="absolute inset-0 z-0 opacity-20" style={{ backgroundImage: 'radial-gradient(#00f3ff 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
       
+      {/* Ambient background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-neonCyan rounded-full mix-blend-screen filter blur-[250px] opacity-10 pointer-events-none"></div>
+
       <motion.div 
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="bg-panelBg p-10 rounded-none border-l-4 border-neonCyan shadow-neon-cyan backdrop-blur-2xl w-full max-w-md relative z-10 m-auto before:absolute before:top-0 before:right-0 before:w-8 before:h-8 before:border-t-2 before:border-r-2 before:border-neonCyan after:absolute after:bottom-0 after:left-0 after:w-8 after:h-8 after:border-b-2 after:border-l-2 after:border-neonCyan"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="w-full max-w-md relative z-10 m-4"
       >
-        <div className="flex justify-between items-start mb-8">
-          <div>
-            <h2 className="text-sm font-mono text-neonCyan mb-1 tracking-widest uppercase">Security_Protocol</h2>
-            <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500 tracking-widest glitch-wrapper" data-text={isLogin ? "AUTH_SYS" : "REG_SYS"}>
-              {isLogin ? "AUTH_SYS" : "REG_SYS"}
-            </h1>
-          </div>
-          <div className="text-neonMagenta font-mono text-xs animate-pulse">v2.0.4</div>
-        </div>
-
-        {error && (
-          <div className="mb-6 p-3 border border-danger/50 bg-danger/10 text-danger text-xs font-mono uppercase tracking-wider animate-pulse shadow-neon-danger">
-            [!] {error}
-          </div>
-        )}
-        
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {!isLogin && (
-            <div>
-              <label className="block text-xs font-mono text-neonCyan/80 mb-2 uppercase tracking-widest">ID_Alias</label>
-              <input 
-                type="text" 
-                value={name}
-                onChange={e => setName(e.target.value)}
-                className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-neonCyan focus:shadow-neon-cyan transition-all font-mono"
-                placeholder="Enter designation..."
-                required
-              />
-            </div>
-          )}
+        <div className="bg-[#0a0a0f]/90 backdrop-blur-xl rounded-2xl border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.8)] overflow-hidden">
           
-          <div>
-            <label className="block text-xs font-mono text-neonCyan/80 mb-2 uppercase tracking-widest">Comm_Link (Email)</label>
-            <input 
-              type="email" 
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-neonCyan focus:shadow-neon-cyan transition-all font-mono"
-              placeholder="operator@matrix.net"
-              required
-            />
+          {/* Header Area */}
+          <div className="p-8 pb-6 border-b border-white/5 bg-gradient-to-b from-white/[0.02] to-transparent">
+            <div className="flex justify-center mb-4">
+              <div className="w-12 h-12 rounded-xl bg-neonCyan/10 border border-neonCyan/30 flex items-center justify-center shadow-[0_0_15px_rgba(0,243,255,0.2)]">
+                <Monitor className="text-neonCyan w-6 h-6" />
+              </div>
+            </div>
+            <h1 className="text-2xl font-bold text-center text-white tracking-wide">
+              {isLogin ? "System Authentication" : "User Registration"}
+            </h1>
+            <p className="text-center text-gray-400 text-sm mt-2 font-mono">
+              {isLogin ? "Enter your credentials to access the workspace" : "Create a new systematic identity"}
+            </p>
           </div>
 
-          <div>
-            <label className="block text-xs font-mono text-neonCyan/80 mb-2 uppercase tracking-widest">Access_Key (Password)</label>
-            <input 
-              type="password" 
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              className="w-full bg-black/50 border border-white/10 text-white px-4 py-3 focus:outline-none focus:border-neonCyan focus:shadow-neon-cyan transition-all font-mono"
-              placeholder="••••••••••••"
-              required
-            />
-          </div>
+          {/* Form Area */}
+          <div className="p-8">
+            <AnimatePresence mode="wait">
+              {error && (
+                <motion.div 
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="mb-6 flex items-center gap-3 p-3 rounded-lg bg-danger/10 border border-danger/30 text-danger text-sm"
+                >
+                  <AlertCircle className="w-5 h-5 shrink-0" />
+                  <p>{error}</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-          <button 
-            type="submit"
-            disabled={loading}
-            className="w-full relative group bg-transparent border-2 border-neonCyan text-neonCyan font-bold py-4 mt-4 overflow-hidden transition-all duration-300 uppercase tracking-[0.3em] text-sm hover:text-bgDark hover:shadow-neon-cyan-intense disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <span className="absolute inset-0 w-full h-full bg-neonCyan -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out"></span>
-            <span className="relative z-10 flex items-center justify-center gap-2">
-              {loading ? 'Processing...' : isLogin ? 'Initialize Connection' : 'Establish Identity'}
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {!isLogin && (
+                <div>
+                  <label className="block text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wider">Full Name</label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500 group-focus-within:text-neonCyan transition-colors">
+                      <User className="w-5 h-5" />
+                    </div>
+                    <input 
+                      type="text" 
+                      value={name}
+                      onChange={e => setName(e.target.value)}
+                      className="w-full bg-[#12121a] border border-white/10 rounded-lg text-white pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-neonCyan focus:ring-1 focus:ring-neonCyan transition-all"
+                      placeholder="John Doe"
+                      required
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <label className="block text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wider">Email Address</label>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500 group-focus-within:text-neonCyan transition-colors">
+                    <Mail className="w-5 h-5" />
+                  </div>
+                  <input 
+                    type="email" 
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    className="w-full bg-[#12121a] border border-white/10 rounded-lg text-white pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-neonCyan focus:ring-1 focus:ring-neonCyan transition-all"
+                    placeholder="admin@system.io"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wider">Password</label>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500 group-focus-within:text-neonCyan transition-colors">
+                    <Lock className="w-5 h-5" />
+                  </div>
+                  <input 
+                    type="password" 
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    className="w-full bg-[#12121a] border border-white/10 rounded-lg text-white pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-neonCyan focus:ring-1 focus:ring-neonCyan transition-all"
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
+              </div>
+
+              <button 
+                type="submit"
+                disabled={loading}
+                className="w-full bg-neonCyan text-[#05050a] font-bold rounded-lg py-3 mt-2 flex items-center justify-center gap-2 hover:bg-white transition-colors duration-300 disabled:opacity-70 shadow-[0_0_15px_rgba(0,243,255,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.5)]"
+              >
+                {loading ? (
+                  <span className="flex items-center gap-2">Authenticating <span className="animate-pulse">...</span></span>
+                ) : (
+                  <>
+                    {isLogin ? 'Login to Dashboard' : 'Create Account'}
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+            </form>
+          </div>
+          
+          {/* Footer Area */}
+          <div className="px-8 py-5 border-t border-white/5 bg-[#05050a]/50 text-center flex items-center justify-between">
+            <span className="text-xs text-gray-500 flex items-center gap-1">
+              <ShieldCheck className="w-3 h-3" /> Secure Connection
             </span>
-          </button>
-        </form>
+            <button 
+              onClick={() => { setIsLogin(!isLogin); setError(''); }}
+              className="text-xs text-neonCyan hover:text-white transition-colors font-medium"
+            >
+              {isLogin ? 'Create an account' : 'Sign in instead'}
+            </button>
+          </div>
 
-        <div className="mt-8 pt-6 border-t border-white/10 text-center">
-          <button 
-            onClick={() => { setIsLogin(!isLogin); setError(''); }}
-            className="text-xs font-mono text-gray-400 hover:text-neonMagenta transition-colors uppercase tracking-widest"
-          >
-            {isLogin ? '> Request New Access Clearance' : '> Return to Login Protocol'}
-          </button>
         </div>
       </motion.div>
     </div>
