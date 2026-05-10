@@ -33,20 +33,19 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-bgDark p-4 relative overflow-hidden">
+    <div className="min-h-screen w-full flex items-center justify-center bg-bgDark p-4 relative overflow-hidden">
       {/* Scanline overlay */}
       <div className="absolute inset-0 pointer-events-none z-50 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] opacity-20"></div>
       <div className="absolute inset-0 pointer-events-none z-40 h-[10px] w-full bg-neonCyan/20 blur-sm animate-scanline"></div>
 
-      {/* Decorative glowing orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-neonCyan rounded-full mix-blend-screen filter blur-[150px] opacity-20 animate-pulse-slow"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-neonMagenta rounded-full mix-blend-screen filter blur-[150px] opacity-20 animate-pulse-slow" style={{ animationDelay: '2s'}}></div>
+      {/* Decorative glowing orbs perfectly centered in background */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-neonCyan rounded-full mix-blend-screen filter blur-[200px] opacity-10 animate-pulse-slow"></div>
       
       <motion.div 
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="bg-panelBg p-10 rounded-none border-l-4 border-neonCyan shadow-neon-cyan backdrop-blur-2xl w-full max-w-md relative z-10 before:absolute before:top-0 before:right-0 before:w-8 before:h-8 before:border-t-2 before:border-r-2 before:border-neonCyan after:absolute after:bottom-0 after:left-0 after:w-8 after:h-8 after:border-b-2 after:border-l-2 after:border-neonCyan"
+        className="bg-panelBg p-10 rounded-none border-l-4 border-neonCyan shadow-neon-cyan backdrop-blur-2xl w-full max-w-md relative z-10 m-auto before:absolute before:top-0 before:right-0 before:w-8 before:h-8 before:border-t-2 before:border-r-2 before:border-neonCyan after:absolute after:bottom-0 after:left-0 after:w-8 after:h-8 after:border-b-2 after:border-l-2 after:border-neonCyan"
       >
         <div className="flex justify-between items-start mb-8">
           <div>
