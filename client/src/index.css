@@ -2,6 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  /* Hide the default OS cursor to use our custom particle wave cursor */
+  cursor: none !important;
+}
+
 body {
-  @apply bg-bgDark text-white font-sans antialiased;
+  @apply bg-bgDark text-white font-sans antialiased overflow-x-hidden;
+  /* Cyber grid background */
+  background-image:
+    linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center center;
+}
+
+/* Futuristic Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #05050a;
+}
+::-webkit-scrollbar-thumb {
+  background: #00f3ff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #00f3ff;
 }
